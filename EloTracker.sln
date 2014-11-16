@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2013 for Web
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "EloTracker", "EloTracker\EloTracker.ccproj", "{926C8A07-533C-47CA-98B9-CE145CF73150}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EloTrackerWeb", "WebRole1\EloTrackerWeb.csproj", "{DD3C6B99-BB33-47CE-8E28-0A9AA866D640}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EloTrackerWorker", "WorkerRole1\EloTrackerWorker.csproj", "{B570A268-5C0A-45AF-9728-F1424969C841}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EloTracker.DAL", "EloTracker.DAL\EloTracker.DAL.csproj", "{88E89FDD-6098-4398-95AA-47DC80B7E9EF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{926C8A07-533C-47CA-98B9-CE145CF73150}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{926C8A07-533C-47CA-98B9-CE145CF73150}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{926C8A07-533C-47CA-98B9-CE145CF73150}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{926C8A07-533C-47CA-98B9-CE145CF73150}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD3C6B99-BB33-47CE-8E28-0A9AA866D640}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD3C6B99-BB33-47CE-8E28-0A9AA866D640}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD3C6B99-BB33-47CE-8E28-0A9AA866D640}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD3C6B99-BB33-47CE-8E28-0A9AA866D640}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B570A268-5C0A-45AF-9728-F1424969C841}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B570A268-5C0A-45AF-9728-F1424969C841}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B570A268-5C0A-45AF-9728-F1424969C841}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B570A268-5C0A-45AF-9728-F1424969C841}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88E89FDD-6098-4398-95AA-47DC80B7E9EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88E89FDD-6098-4398-95AA-47DC80B7E9EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88E89FDD-6098-4398-95AA-47DC80B7E9EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88E89FDD-6098-4398-95AA-47DC80B7E9EF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

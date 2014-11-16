@@ -15,6 +15,7 @@ namespace EloTracker.DAL
         private const int BRONZE_MODIFIER = 30;
         private const int SILVER_MODIFIER = 20;
         private const int GOLD_MODIFIER = 10;
+        private const string GAME_ID = "b48d5611-b383-49b3-94f1-b3417ceb967e";
 
         public static void GenerateUsers(bool force = false)
         {
@@ -50,7 +51,8 @@ namespace EloTracker.DAL
                                 Elo = 800,
                                 GamerTag = gamerTag,
                                 ID = Guid.NewGuid(),
-                                IsOnline = false
+                                IsOnline = false,
+                                GameID = Guid.Parse(GAME_ID)
                             };
 
                             context.Players.Add(p);
@@ -74,55 +76,30 @@ namespace EloTracker.DAL
             {
                 for (int i = 0; i < matchCount; i++)
                 {
-                    Player player1 = context.Players.OrderBy(p => Guid.NewGuid()).FirstOrDefault();
-                    Player player2 = MatchMaking.FindMatch(player1);
-
-                    if (player2 == null)
+                    Player p1 = context.Players.OrderBy(p => Guid.NewGuid()).FirstOrDefault();
+                    Guid p2ID = MatchMaking.FindMatch(Guid.Parse(GAME_ID), p1.ID) ?? Guid.Empty;
+                    Player p2 = context.Players.OrderBy(p => p.ID == p2ID).FirstOrDefault();
+                    
+                    if (p2 == null)
                     {
                         i--;
                         continue;
                     }
-                    double p1Diff = CalcualtePlayer1EloDifference(player1.Elo, player2.Elo);
 
-                    MatchHistory history = new MatchHistory
-                    {
-                        ID = Guid.NewGuid(),
-                        Player1ID = player1.ID,
-                        Player2ID = player2.ID,
-                        TimeStamp = DateTime.Now,
-                        WinningPlayerID = p1Diff > 0 ? player1.ID : player2.ID
-                    };
-
-                    context.MatchHistories.Add(history);
-
-                    player1.Elo += (int)p1Diff;
-                    player2.Elo -= (int)p1Diff;
-
-                    context.SaveChanges();
+                    Guid matchID = MatchMaking.CreateMatch(Guid.Parse(GAME_ID), p1.ID, p2.ID);
+                    Guid result = IsPlayer1Winner(p1.Elo, p2.Elo) ? p1.ID : p2.ID;
+                    MatchMaking.RegisterMatchResult(matchID, p1.ID, result);
+                    MatchMaking.RegisterMatchResult(matchID, p2.ID, result);
                 }
             }
         }
 
         // Negate this value for player 2's elo gain/loss
-        public static double CalcualtePlayer1EloDifference(int player1Elo, int player2Elo)
+        private static bool IsPlayer1Winner(int player1Elo, int player2Elo)
         {
-            // Calulate the constant for the calculation using the highest Elo player
-            int gameRange = Math.Max(player1Elo, player2Elo);
-            int c = BRONZE_MODIFIER;
-
-            if (gameRange > SILVER_ELO_MAX)
-            {
-                c = GOLD_MODIFIER;
-            }
-            else if (gameRange > BRONZE_ELO_MAX)
-            {
-                c = SILVER_MODIFIER;
-            }
-
             // Calculate a winner using the odds
             double odds = 1 / (1 + Math.Pow(10, (player2Elo - player1Elo) / 400));
-            int score = new Random().NextDouble() <= odds ? 1 : 0;
-            return player1Elo - Math.Floor(player1Elo + c * (score - odds));
+            return new Random().NextDouble() <= odds;
         }
     }
 }

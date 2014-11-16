@@ -1,4 +1,5 @@
 ﻿using EloTracker.DAL;
+using Microsoft.WindowsAzure.ServiceRuntime;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,9 @@ namespace WebRole1.Helpers
                 using (EloTrackerEntities context = new EloTrackerEntities())
                 {
                     string id = actionContext.Request.Headers.GetValues("gameid").First();
+#if DEBUG
+                    id = RoleEnvironment.GetConfigurationSettingValue("GameID");
+#endif
                     Guid gId = Guid.Parse(id);
                     return context.Games.Any(g => g.ID == gId);
                 }

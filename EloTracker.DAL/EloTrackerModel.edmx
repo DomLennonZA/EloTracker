@@ -20,8 +20,10 @@
           <Property Name="Player1ID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Player2ID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="TimeStamp" Type="datetime" Nullable="false" />
-          <Property Name="WinningPlayerID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="WinningPlayerID" Type="uniqueidentifier" />
           <Property Name="GameID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Player1Verified" Type="bit" />
+          <Property Name="Player2Verified" Type="bit" />
         </EntityType>
         <EntityType Name="Players">
           <Key>
@@ -62,8 +64,10 @@
           <Property Name="Player1ID" Type="Guid" Nullable="false" />
           <Property Name="Player2ID" Type="Guid" Nullable="false" />
           <Property Name="TimeStamp" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="WinningPlayerID" Type="Guid" Nullable="false" />
+          <Property Name="WinningPlayerID" Type="Guid" />
           <Property Name="GameID" Type="Guid" Nullable="false" />
+          <Property Name="Player1Verified" Type="Boolean" />
+          <Property Name="Player2Verified" Type="Boolean" />
         </EntityType>
         <EntityType Name="Player">
           <Key>
@@ -92,6 +96,8 @@
           <EntitySetMapping Name="MatchHistories">
             <EntityTypeMapping TypeName="EloTrackerModel.MatchHistory">
               <MappingFragment StoreEntitySet="MatchHistory">
+                <ScalarProperty Name="Player2Verified" ColumnName="Player2Verified" />
+                <ScalarProperty Name="Player1Verified" ColumnName="Player1Verified" />
                 <ScalarProperty Name="GameID" ColumnName="GameID" />
                 <ScalarProperty Name="WinningPlayerID" ColumnName="WinningPlayerID" />
                 <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />

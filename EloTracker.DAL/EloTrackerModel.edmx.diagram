@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="9b7a4287dac34186b237e0ca060abfee" Name="Diagram1">
+      <Diagram DiagramId="9b7a4287dac34186b237e0ca060abfee" Name="Diagram1" ZoomLevel="101">
         <EntityTypeShape EntityType="EloTrackerModel.Game" Width="1.5" PointX="0.5" PointY="0.75" />
         <EntityTypeShape EntityType="EloTrackerModel.MatchHistory" Width="1.5" PointX="2.125" PointY="0.75" />
         <EntityTypeShape EntityType="EloTrackerModel.Player" Width="1.5" PointX="3.75" PointY="0.75" />

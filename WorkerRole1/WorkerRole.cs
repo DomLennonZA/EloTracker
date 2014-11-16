@@ -9,6 +9,7 @@ using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Diagnostics;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using Microsoft.WindowsAzure.Storage;
+using EloTracker.DAL;
 
 namespace WorkerRole1
 {
@@ -35,6 +36,7 @@ namespace WorkerRole1
         {
             // Set the maximum number of concurrent connections
             ServicePointManager.DefaultConnectionLimit = 12;
+            MatchMaking.CleanUp();
 
             // For information on handling configuration changes
             // see the MSDN topic at http://go.microsoft.com/fwlink/?LinkId=166357.
@@ -64,7 +66,8 @@ namespace WorkerRole1
             while (!cancellationToken.IsCancellationRequested)
             {
                 Trace.TraceInformation("Working");
-                await Task.Delay(1000);
+                MatchMaking.CleanUp(); // Clean up dead matches
+                await Task.Delay(TimeSpan.FromHours(1));
             }
         }
     }

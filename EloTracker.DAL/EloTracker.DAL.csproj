@@ -63,6 +63,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>EloTrackerModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Game.cs">
+      <DependentUpon>EloTrackerModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="MatchHistory.cs">
       <DependentUpon>EloTrackerModel.tt</DependentUpon>
     </Compile>

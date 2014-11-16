@@ -2,10 +2,14 @@
 <ServiceConfiguration serviceName="EloTracker" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="4" osVersion="*" schemaVersion="2014-06.2.4">
   <Role name="EloTrackerWeb">
     <Instances count="1" />
-    <ConfigurationSettings />
+    <ConfigurationSettings>
+      <Setting name="GameID" value="b48d5611-b383-49b3-94f1-b3417ceb967e" />
+    </ConfigurationSettings>
   </Role>
   <Role name="EloTrackerWorker">
     <Instances count="1" />
-    <ConfigurationSettings />
+    <ConfigurationSettings>
+      <Setting name="GameID" value="b48d5611-b383-49b3-94f1-b3417ceb967e" />
+    </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>

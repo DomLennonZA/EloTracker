@@ -5,6 +5,13 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="EloTrackerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Games">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="GameName" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
         <EntityType Name="MatchHistory">
           <Key>
             <PropertyRef Name="ID" />
@@ -14,6 +21,7 @@
           <Property Name="Player2ID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="TimeStamp" Type="datetime" Nullable="false" />
           <Property Name="WinningPlayerID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="GameID" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="Players">
           <Key>
@@ -23,8 +31,10 @@
           <Property Name="GamerTag" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="IsOnline" Type="bit" Nullable="false" />
           <Property Name="Elo" Type="int" Nullable="false" />
+          <Property Name="GameID" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityContainer Name="EloTrackerModelStoreContainer">
+          <EntitySet Name="Games" EntityType="Self.Games" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MatchHistory" EntityType="Self.MatchHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Players" EntityType="Self.Players" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
@@ -32,19 +42,18 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="EloTrackerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Player">
+        <EntityContainer Name="EloTrackerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Games" EntityType="EloTrackerModel.Game" />
+          <EntitySet Name="MatchHistories" EntityType="EloTrackerModel.MatchHistory" />
+          <EntitySet Name="Players" EntityType="EloTrackerModel.Player" />
+        </EntityContainer>
+        <EntityType Name="Game">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Guid" Nullable="false" />
-          <Property Name="GamerTag" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="IsOnline" Type="Boolean" Nullable="false" />
-          <Property Name="Elo" Type="Int32" Nullable="false" />
+          <Property Name="GameName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityContainer Name="EloTrackerEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Players" EntityType="Self.Player" />
-          <EntitySet Name="MatchHistories" EntityType="EloTrackerModel.MatchHistory" />
-        </EntityContainer>
         <EntityType Name="MatchHistory">
           <Key>
             <PropertyRef Name="ID" />
@@ -54,6 +63,17 @@
           <Property Name="Player2ID" Type="Guid" Nullable="false" />
           <Property Name="TimeStamp" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="WinningPlayerID" Type="Guid" Nullable="false" />
+          <Property Name="GameID" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Player">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="GamerTag" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsOnline" Type="Boolean" Nullable="false" />
+          <Property Name="Elo" Type="Int32" Nullable="false" />
+          <Property Name="GameID" Type="Guid" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -61,23 +81,33 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="EloTrackerModelStoreContainer" CdmEntityContainer="EloTrackerEntities">
-          <EntitySetMapping Name="Players">
-            <EntityTypeMapping TypeName="EloTrackerModel.Player">
-              <MappingFragment StoreEntitySet="Players">
+          <EntitySetMapping Name="Games">
+            <EntityTypeMapping TypeName="EloTrackerModel.Game">
+              <MappingFragment StoreEntitySet="Games">
+                <ScalarProperty Name="GameName" ColumnName="GameName" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="GamerTag" ColumnName="GamerTag" />
-                <ScalarProperty Name="IsOnline" ColumnName="IsOnline" />
-                <ScalarProperty Name="Elo" ColumnName="Elo" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="MatchHistories">
             <EntityTypeMapping TypeName="EloTrackerModel.MatchHistory">
               <MappingFragment StoreEntitySet="MatchHistory">
+                <ScalarProperty Name="GameID" ColumnName="GameID" />
                 <ScalarProperty Name="WinningPlayerID" ColumnName="WinningPlayerID" />
                 <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
                 <ScalarProperty Name="Player2ID" ColumnName="Player2ID" />
                 <ScalarProperty Name="Player1ID" ColumnName="Player1ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Players">
+            <EntityTypeMapping TypeName="EloTrackerModel.Player">
+              <MappingFragment StoreEntitySet="Players">
+                <ScalarProperty Name="GameID" ColumnName="GameID" />
+                <ScalarProperty Name="Elo" ColumnName="Elo" />
+                <ScalarProperty Name="IsOnline" ColumnName="IsOnline" />
+                <ScalarProperty Name="GamerTag" ColumnName="GamerTag" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

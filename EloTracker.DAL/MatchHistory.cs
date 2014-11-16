@@ -19,5 +19,6 @@ namespace EloTracker.DAL
         public System.Guid Player2ID { get; set; }
         public System.DateTime TimeStamp { get; set; }
         public System.Guid WinningPlayerID { get; set; }
+        public System.Guid GameID { get; set; }
     }
 }

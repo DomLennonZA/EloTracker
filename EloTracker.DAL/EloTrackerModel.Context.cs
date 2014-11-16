@@ -25,7 +25,8 @@ namespace EloTracker.DAL
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Player> Players { get; set; }
+        public virtual DbSet<Game> Games { get; set; }
         public virtual DbSet<MatchHistory> MatchHistories { get; set; }
+        public virtual DbSet<Player> Players { get; set; }
     }
 }

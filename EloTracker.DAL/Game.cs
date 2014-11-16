@@ -12,12 +12,9 @@ namespace EloTracker.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class Player
+    public partial class Game
     {
         public System.Guid ID { get; set; }
-        public string GamerTag { get; set; }
-        public bool IsOnline { get; set; }
-        public int Elo { get; set; }
-        public System.Guid GameID { get; set; }
+        public string GameName { get; set; }
     }
 }

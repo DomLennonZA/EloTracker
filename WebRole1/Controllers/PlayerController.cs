@@ -9,16 +9,23 @@ using WebRole1.Helpers;
 
 namespace WebRole1.Controllers
 {
-
     [AuthenticateRequest]
     public class PlayerController : ApiController
     {
-        public MatchHistory[] GetMatchHistory(Guid id)
+        [AllowAnonymous]
+        [HttpGet]
+        public Player Info (Guid id)
         {
             using (EloTrackerEntities context = new EloTrackerEntities())
             {
-                return context.MatchHistories.Where(m => m.Player1ID == id || m.Player2ID == id).OrderByDescending(m => m.TimeStamp).ToArray();
+                return context.Players.FirstOrDefault(p => p.ID == id);
             }
+        }
+
+        [HttpGet]
+        public MatchHistory[] GetMatchHistory(Guid id, int count = 50)
+        {
+            return MatchMaking.GetMatchResults(id, count);
         }
     }
 }

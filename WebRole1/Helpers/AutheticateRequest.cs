@@ -18,10 +18,22 @@ namespace WebRole1.Helpers
             {
                 using (EloTrackerEntities context = new EloTrackerEntities())
                 {
-                    string id = actionContext.Request.Headers.GetValues("gameid").First();
 #if DEBUG
-                    id = RoleEnvironment.GetConfigurationSettingValue("GameID");
+                    if (!actionContext.Request.Headers.Contains("gameid"))
+                    {
+                        actionContext.Request.Headers.Add("gameid", RoleEnvironment.GetConfigurationSettingValue("gameid"));
+                    }
 #endif
+                    string id = String.Empty;
+                    if (actionContext.Request.Headers.Contains("gameid"))
+                    {
+                        id = actionContext.Request.Headers.GetValues("gameid").First();
+                    }
+                    else
+                    {
+                        id = Guid.Empty.ToString();
+                    }
+
                     Guid gId = Guid.Parse(id);
                     return context.Games.Any(g => g.ID == gId);
                 }

@@ -15,10 +15,20 @@ namespace WebRole1
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                name: "PlayerApi",
+                routeTemplate: "api/{controller}/{action}/{id}/{count}",
+                defaults: new { id = RouteParameter.Optional, count = RouteParameter.Optional }
             );
+
+            config.Routes.MapHttpRoute(
+               name: "CreateMatchApi",
+               routeTemplate: "api/{controller}/{action}/{p1ID}/{p2ID}"
+           );
+
+            config.Routes.MapHttpRoute(
+               name: "ResultsApi",
+               routeTemplate: "api/{controller}/{action}/{gameID}/{playerID}/{result}"
+           );
         }
     }
 }

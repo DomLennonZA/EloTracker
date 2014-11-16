@@ -12,9 +12,22 @@ namespace WebRole1.Controllers
     [AuthenticateRequest]
     public class MatchMakingController : ApiController
     {
-        public Guid? FindMatch(Guid playerID)
+        [HttpGet]
+        public Guid? FindOpponent(Guid id)
         {
-            return MatchMaking.FindMatch(Request.GetGameID(), playerID);
+            return MatchMaking.FindMatch(Request.GetGameID(), id).Value;
+        }
+
+        [HttpPost]
+        public Guid CreateMatch(Guid p1ID, Guid p2ID)
+        {
+            return MatchMaking.CreateMatch(Request.GetGameID(), p1ID, p2ID);
+        }
+
+        [HttpPost]
+        public void SubmitResult(Guid gameID, Guid playerID, Guid result)
+        {
+            MatchMaking.RegisterMatchResult(gameID, playerID, result);
         }
     }
 }
